@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+base_dir=/home/yunjiez/blame
+for rname in $(cat $base_dir/DSN0)
+do
+  echo "before: " $rname
+  
+  # Get vol info
+  vol=`cat $base_dir/monitor.properties | grep -w "^${rname}.vol"`
+  vol_name=`echo $vol | awk -F '=' '{print $2;}' | tr -d '\r\n'`
+
+  new=${rname}-${vol_name}.git
+
+  eval "sed -i 's/\/${rname}.git/\/${rname}-${vol_name}.git/g' $base_dir/monitor.properties"
+done

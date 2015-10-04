@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+base_dir=/home/yunjiez/blame
+
+for line in $(cat $base_dir/DSN)
+do
+  echo $line
+
+  dsn=`echo $line | awk -F '=' '{print $2}' | tr -d '\r\n'`
+
+  echo $dsn >> DSN0
+  
+done

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+base_dir=/home/yunjiez/blame
+
+for line in $(cat $base_dir/test)
+do
+  echo $line
+
+  mkdir $base_dir/git/$line  
+done
