@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+base_dir=/home/ibmer/git-repos-migrate
+for rname in $(cat $base_dir/DSN0)
+do
+  # Get vol info
+  vol=`cat $base_dir/monitor.properties | grep -w "^${rname}.vol"`
+  vol_name=`echo $vol | awk -F '=' '{print $2;}' | tr -d '\r\n'`
+
+  new_repo=${rname}-${vol_name}
+  new=${rname}-${vol_name}.git
+  import_url="http://blame.pok.stglabs.ibm.com/r/"${new}
+
+  echo ${import_url}
+
+  curl -k -H "Content-Type:application/json" https://YOUR_GITLAB_SERVER/api/v3/projects?private_token=YOUR_TOKEN -d "{ \"name\": \"$new_repo\", \"path\": \"$new_repo\", \"namespace_id\": \"12468\", \"visibility_level\": \"10\", \"import_url\": \"${import_url}\" }"
+
+done
